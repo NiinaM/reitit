@@ -10,7 +10,7 @@ class Line(db.Model):
         onupdate=db.func.current_timestamp(),
     )
 
-    name = db.Column(db.String(144), nullable=False)
+    name = db.Column(db.String(144), nullable=False, unique=True)
 
     def __init__(self, name):
         self.name = name
