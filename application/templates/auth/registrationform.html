@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="flex justify-center w-full">
+  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST"
+    action="{{ url_for('auth_registration') }}">
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        {{ form.name.label }}
+      </label>
+      {{ form.name(class_="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder="Name") }}
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        {{ form.username.label }}
+      </label>
+      {{ form.username(class_="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder="Username") }}
+      {% for error in form.username.errors %}
+      <p class="text-red-500 text-xs italic">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <div class="mb-2">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+        {{ form.password.label }}
+      </label>
+      {{ form.password(class_="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline", placeholder="******************") }}
+    </div>
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+        {{ form.password_verification.label }}
+      </label>
+      {{ form.password_verification(class_="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline", placeholder="******************") }}
+      {% for error in form.password_verification.errors %}
+      <p class="text-red-500 text-xs italic">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <div class="flex items-center justify-between">
+      <input type="submit" value="Register"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" />
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -22,8 +22,28 @@
         </li>
       </ul>
     </div>
+    {% if current_user.is_authenticated %}
+    <div>
+      <span class="inline-block text-sm leading-none text-white mt-4 lg:mt-0">{{ current_user.name }}</span>
+      <a href="{{ url_for('auth_logout') }}"
+        class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white ml-2 mt-4 lg:mt-0">
+        Log out
+      </a>
+    </div>
+    {% else %}
+    <div>
+      <a href="{{ url_for('auth_login') }}"
+        class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
+        Log in
+      </a>
+      <a href="{{ url_for('auth_registration') }}"
+        class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
+        Register
+      </a>
+    </div>
+    {% endif %}
   </nav>
-  <div class="container p-8">
+  <div class="container pt-8 px-4 sm:px-8">
     {% block body %}
     <p>
       Content.
