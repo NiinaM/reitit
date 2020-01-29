@@ -1,5 +1,6 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
+from flask_login import login_required
 from sqlalchemy.exc import IntegrityError
 from application.lines.models import Line
 from application.lines.forms import LineForm
@@ -20,6 +21,7 @@ def lines_single(line_id):
 
 @app.route("/lines/<line_id>/edit", methods=["GET"])
 @app.route("/lines/<line_id>/edit/", methods=["GET"])
+@login_required
 def lines_single_edit_form(line_id):
     found_line = Line.query.get(line_id)
     form = LineForm(request.form, name=found_line.name)
@@ -28,6 +30,7 @@ def lines_single_edit_form(line_id):
 
 @app.route("/lines/<line_id>", methods=["POST"])
 @app.route("/lines/<line_id>/", methods=["POST"])
+@login_required
 def lines_single_edit(line_id):
     form = LineForm(request.form)
     found_line = Line.query.get(line_id)
@@ -50,12 +53,14 @@ def lines_single_edit(line_id):
 
 @app.route("/lines/create")
 @app.route("/lines/create/")
+@login_required
 def lines_form():
     return render_template("lines/create.html", form=LineForm())
 
 
 @app.route("/lines", methods=["POST"])
 @app.route("/lines/", methods=["POST"])
+@login_required
 def lines_create():
     form = LineForm(request.form)
 
