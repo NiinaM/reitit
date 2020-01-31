@@ -18,3 +18,7 @@ Sovellusta voi koekäyttää Herokussa.
 
 - [Tietokantakaavio](documentation/tietokantakaavio.png)
 - [Käyttötapaukset](documentation/kayttotapaukset.md)
+
+### Tietokantakaavio
+
+![Tietokantakaavio](documentation/tietokantakaavio.png)
