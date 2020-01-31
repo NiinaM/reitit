@@ -52,4 +52,22 @@
   </div>
 </body>
 
+<script>
+  const removeButtonEl = document.getElementById("remove-line-button");
+  const removeLine = () => {
+    if (removeButtonEl) {
+      const lineId = removeButtonEl.dataset["lineid"];
+      if (lineId) {
+        fetch(`/lines/${lineId}`, { method: "DELETE" })
+          .then(() => window.location.href = "/lines")
+          .catch((e) => {
+            console.error(e);
+            window.alert("Delete unsuccesful!")
+          })
+      }
+    }
+  }
+  if (removeButtonEl) removeButtonEl.addEventListener("click", removeLine);
+</script>
+
 </html>

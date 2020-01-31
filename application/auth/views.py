@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import login_user, logout_user
+from sqlalchemy.exc import IntegrityError
 
 from application import app, bcrypt, db
 from application.auth.models import User
@@ -55,7 +56,7 @@ def auth_registration():
 
     try:
         db.session.commit()
-    except:
+    except IntegrityError as error:
         db.session.rollback()
         setattr(form.username, "errors", ["Username already exists."])
         return render_template("auth/registrationform.html", form=form)

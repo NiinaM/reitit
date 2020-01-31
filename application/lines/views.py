@@ -1,6 +1,6 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 from sqlalchemy.exc import IntegrityError
 from application.lines.models import Line
 from application.lines.forms import LineForm
@@ -49,6 +49,19 @@ def lines_single_edit(line_id):
         return render_template("lines/edit.html", form=form, line=found_line)
 
     return redirect(url_for("lines_single", line_id=line_id))
+
+
+@app.route("/lines/<line_id>", methods=["DELETE"])
+@app.route("/lines/<line_id>/", methods=["DELETE"])
+@login_required
+def lines_single_delete(line_id):
+    found_line = Line.query.get(line_id)
+    db.session.delete(found_line)
+
+    try:
+        db.session.commit()
+    except IntegrityError as error:
+        db.session.rollback()
 
 
 @app.route("/lines/create")
