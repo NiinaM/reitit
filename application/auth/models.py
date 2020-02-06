@@ -1,4 +1,5 @@
 from application import db
+from application.favorites import models
 
 
 class User(db.Model):
@@ -15,6 +16,9 @@ class User(db.Model):
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False, unique=True)
     password = db.Column(db.String(144), nullable=False)
+    favorites = db.relationship(
+        "Line", secondary=models.favorites, lazy="subquery", backref="users",
+    )
 
     def __init__(self, name, username, password):
         self.name = name

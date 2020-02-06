@@ -20,6 +20,9 @@ from application.lines import views
 from application.auth import models
 from application.auth import views
 
+from application.favorites import models
+from application.favorites import views
+
 # application login
 from application.auth.models import User
 from os import urandom
