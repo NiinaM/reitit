@@ -1,6 +1,7 @@
 from flask import abort, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import text
 from sqlalchemy.sql.expression import select
 
 from application import app, db
@@ -23,11 +24,14 @@ def lines_single(line_id):
 
     is_favorite = False
     if current_user.is_authenticated:
-        is_favorite = db.session.execute(
-            select([favorites])
-            .where(favorites.c.user_id == current_user.id)
-            .where(favorites.c.user_id == found_line.id)
-        ).first()
+        stmt = text(
+            "SELECT COUNT(Line.id) FROM Line"
+            " LEFT JOIN favorites ON favorites.line_id = Line.id"
+            " WHERE (favorites.user_id = :current_user_id AND favorites.line_id = :current_line_id)"
+        ).params(current_user_id=current_user.id, current_line_id=line_id)
+        res = db.session.execute(stmt).first()
+
+        is_favorite = res[0] > 0
 
     return render_template(
         "lines/single.html", line=found_line, is_favorite=is_favorite
