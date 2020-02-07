@@ -1,16 +1,9 @@
 from application import db
+from application.models import Base
 
 
-class Line(db.Model):
+class Line(Base):
     __tablename__ = "line"
-
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(
-        db.DateTime,
-        default=db.func.current_timestamp(),
-        onupdate=db.func.current_timestamp(),
-    )
 
     name = db.Column(db.String(144), nullable=False, unique=True)
 

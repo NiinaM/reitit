@@ -68,6 +68,38 @@
     }
   }
   if (removeButtonEl) removeButtonEl.addEventListener("click", removeLine);
+
+  const favoriteButtonEl = document.getElementById("favorite-line-button");
+  const favoriteLine = () => {
+    if (favoriteButtonEl) {
+      const lineId = favoriteButtonEl.dataset["lineid"];
+      if (lineId) {
+        fetch(`/favorites/${lineId}/`, { method: "POST" })
+          .then(() => window.location.reload())
+          .catch((e) => {
+            console.error(e);
+            window.alert("Adding to favorites unsuccesful!")
+          })
+      }
+    }
+  }
+  if (favoriteButtonEl) favoriteButtonEl.addEventListener("click", favoriteLine);
+
+  const unfavoriteButtonEl = document.getElementById("unfavorite-line-button");
+  const unfavoriteLine = () => {
+    if (unfavoriteButtonEl) {
+      const lineId = unfavoriteButtonEl.dataset["lineid"];
+      if (lineId) {
+        fetch(`/favorites/${lineId}/`, { method: "DELETE" })
+          .then(() => window.location.reload())
+          .catch((e) => {
+            console.error(e);
+            window.alert("Removing from favorites unsuccesful!")
+          })
+      }
+    }
+  }
+  if (unfavoriteButtonEl) unfavoriteButtonEl.addEventListener("click", unfavoriteLine);
 </script>
 
 </html>

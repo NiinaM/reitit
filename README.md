@@ -14,6 +14,10 @@ Sovellusta voi koekäyttää Herokussa.
 
 - [Heroku (tsoha-reitit)](https://tsoha-reitit.herokuapp.com/)
 
+### Testitunnukset
+
+- Käyttäjätunnus `admin`, salasana `admin`
+
 ## Dokumentaatio
 
 - [Tietokantakaavio](documentation/tietokantakaavio.png)

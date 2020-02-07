@@ -1,8 +1,13 @@
-from application import app, db
-from flask import redirect, render_template, request, url_for
+from flask import abort, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import text
+from sqlalchemy.sql.expression import select
+
+from application import app, db
 from application.lines.models import Line
+from application.auth.models import User
+from application.favorites.models import favorites
 from application.lines.forms import LineForm
 
 
@@ -16,7 +21,21 @@ def lines_list():
 @app.route("/lines/<line_id>/", methods=["GET"])
 def lines_single(line_id):
     found_line = Line.query.get(line_id)
-    return render_template("lines/single.html", line=found_line)
+
+    is_favorite = False
+    if current_user.is_authenticated:
+        stmt = text(
+            "SELECT COUNT(Line.id) FROM Line"
+            " LEFT JOIN favorites ON favorites.line_id = Line.id"
+            " WHERE (favorites.user_id = :current_user_id AND favorites.line_id = :current_line_id)"
+        ).params(current_user_id=current_user.id, current_line_id=line_id)
+        res = db.session.execute(stmt).first()
+
+        is_favorite = res[0] > 0
+
+    return render_template(
+        "lines/single.html", line=found_line, is_favorite=is_favorite
+    )
 
 
 @app.route("/lines/<line_id>/edit", methods=["GET"])

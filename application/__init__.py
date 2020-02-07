@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_bcrypt import Bcrypt
 
@@ -7,8 +8,13 @@ bcrypt = Bcrypt(app)
 # database init
 from flask_sqlalchemy import SQLAlchemy
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///lines.db"
-app.config["SQLALCHEMY_ECHO"] = True
+if os.environ.get("HEROKU"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///lines.db"
+    app.config["SQLALCHEMY_ECHO"] = True
+
+
 db = SQLAlchemy(app)
 
 # application features and views
@@ -19,6 +25,9 @@ from application.lines import views
 
 from application.auth import models
 from application.auth import views
+
+from application.favorites import models
+from application.favorites import views
 
 # application login
 from application.auth.models import User
@@ -41,4 +50,7 @@ def load_user(user_id):
 
 
 # create database tables if necessary
-db.create_all()
+try:
+    db.create_all()
+except:
+    pass
