@@ -1,17 +1,10 @@
 from application import db
+from application.models import Base
 from application.favorites import models
 
 
-class User(db.Model):
+class User(Base):
     __tablename__ = "user"
-
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(
-        db.DateTime,
-        default=db.func.current_timestamp(),
-        onupdate=db.func.current_timestamp(),
-    )
 
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False, unique=True)
