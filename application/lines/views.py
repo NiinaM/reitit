@@ -1,5 +1,5 @@
 from flask import abort, redirect, render_template, request, url_for
-from flask_user import current_user, login_required
+from flask_user import current_user, login_required, roles_required
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import text
 from sqlalchemy.sql.expression import select
@@ -40,7 +40,7 @@ def lines_single(line_id):
 
 @app.route("/lines/<line_id>/edit", methods=["GET"])
 @app.route("/lines/<line_id>/edit/", methods=["GET"])
-@login_required
+@roles_required("admin")
 def lines_single_edit_form(line_id):
     found_line = Line.query.get(line_id)
     form = LineForm(request.form, name=found_line.name)
@@ -49,7 +49,7 @@ def lines_single_edit_form(line_id):
 
 @app.route("/lines/<line_id>", methods=["POST"])
 @app.route("/lines/<line_id>/", methods=["POST"])
-@login_required
+@roles_required("admin")
 def lines_single_edit(line_id):
     form = LineForm(request.form)
     found_line = Line.query.get(line_id)
@@ -72,7 +72,7 @@ def lines_single_edit(line_id):
 
 @app.route("/lines/<line_id>", methods=["DELETE"])
 @app.route("/lines/<line_id>/", methods=["DELETE"])
-@login_required
+@roles_required("admin")
 def lines_single_delete(line_id):
     found_line = Line.query.get(line_id)
     db.session.delete(found_line)
@@ -85,14 +85,14 @@ def lines_single_delete(line_id):
 
 @app.route("/lines/create")
 @app.route("/lines/create/")
-@login_required
+@roles_required("admin")
 def lines_form():
     return render_template("lines/create.html", form=LineForm())
 
 
 @app.route("/lines", methods=["POST"])
 @app.route("/lines/", methods=["POST"])
-@login_required
+@roles_required("admin")
 def lines_create():
     form = LineForm(request.form)
 

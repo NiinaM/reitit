@@ -17,9 +17,11 @@
         <li class="block mt-4 lg:inline-block lg:mt-0">
           <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('lines_list') }}">All lines</a>
         </li>
+        {% if current_user.is_authenticated and current_user.has_role('admin') %}
         <li class="block mt-4 lg:inline-block lg:mt-0">
           <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('lines_form') }}">Create new line</a>
         </li>
+        {% endif %}
       </ul>
     </div>
     {% if current_user.is_authenticated %}
