@@ -1,56 +1,54 @@
-import os
+from os import environ
+import secrets
 from flask import Flask
+from flask_user import UserManager
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
-# database init
 from flask_sqlalchemy import SQLAlchemy
 
-if os.environ.get("HEROKU"):
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+if environ.get("HEROKU"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URL")
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///lines.db"
     app.config["SQLALCHEMY_ECHO"] = True
 
+# flask user settings
+app.config["USER_APP_NAME"] = "Reitit"
+app.config["USER_ENABLE_EMAIL"] = False
+app.config["USER_ENABLE_USERNAME"] = True
+app.config["USER_ENABLE_CHANGE_USERNAME"] = False
+app.config["USER_ENABLE_CHANGE_PASSWORD"] = False
+app.config["SECRET_KEY"] = secrets.token_urlsafe(32)
 
 db = SQLAlchemy(app)
 
 # application features and views
+from application import database
 from application import views
 
 from application.lines import models
 from application.lines import views
 
+from application.routes import models
+from application.routes import views
+
 from application.auth import models
-from application.auth import views
+from application.auth import forms
+from application.auth.models import User
 
 from application.favorites import models
 from application.favorites import views
 
 # application login
-from application.auth.models import User
-from os import urandom
-
-app.config["SECRET_KEY"] = urandom(32)
-
-from flask_login import LoginManager
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-login_manager.login_view = "auth_login"
-login_manager.login_message = "Please login to use this functionality."
+class CustomUserManager(UserManager):
+    def customize(self, app):
+        self.RegisterFormClass = forms.RegistrationForm
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
+user_manager = CustomUserManager(app, db, User)
 
-
-# create database tables if necessary
-try:
-    db.create_all()
-except:
-    pass
+# initialize database
+database.init_db(db, user_manager)

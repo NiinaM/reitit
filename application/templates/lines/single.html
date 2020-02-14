@@ -1,7 +1,7 @@
 {% extends "layout.html" %} {% block body %}
 <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('lines_list') }}">&#8592; Back</a>
 <div class="flex items-center">
-  <h2 class="text-3xl">{{ line.name }}</h2>
+  <h2 class="text-3xl">{{ line.get_name() }}</h2>
   {% if current_user.is_authenticated %}
   {% if is_favorite %}
   <button data-lineid="{{ line.id }}" id="unfavorite-line-button"
@@ -14,6 +14,7 @@
     Add to favorites
   </button>
   {% endif %}
+  {% if current_user.has_roles('admin') %}
   <a href="{{ url_for('lines_single_edit_form', line_id=line.id) }}"
     class="inline-block text-sm ml-2 px-2 py-2 leading-none border rounded-full text-gray-600 border-gray-600 hover:border-gray-700 hover:text-gray-700 hover:bg-gray-100 focus:bg-gray-200">
     Edit
@@ -23,6 +24,27 @@
     Remove
   </button>
   {% endif %}
+  {% endif %}
+</div>
+<div class="mt-2">
+  <h3 class="text-xl">Routes</h3>
+  <table>
+    {% for route in routes %}
+    <tr>
+      <td>
+        <a class="text-blue-500 hover:text-blue-800"
+          href="{{ url_for('routes_single', route_id=route.id) }}">{{ route.name }}</a>
+      </td>
+    </tr>
+    {% endfor %}
+    {% if current_user.is_authenticated and current_user.has_roles('admin') %}<tr>
+      <td>
+        <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('routes_form', line_id=line.id) }}">+ Create a new
+          route</a>
+      </td>
+    </tr>
+    {% endif %}
+  </table>
 </div>
 
 {% endblock %}

@@ -1,0 +1,42 @@
+{% extends "layout.html" %} {% block body %}
+{% if line %}<a class="text-blue-500 hover:text-blue-800" href="{{ url_for('lines_single', line_id=line.id) }}">&#8592;
+  Back</a>{% endif %}
+<h2 class="text-3xl">{% if line %}Edit line ({{ line.get_name() }}){% else %}Create a new line{% endif %}</h2>
+<form class="w-full max-w-sm pt-4" method="POST"
+  action="{{ url_for('lines_single_edit', line_id=line.id) if line else url_for('lines_create') }}">
+  <div class="md:flex md:items-center mb-4">
+    <div class="md:w-1/3">
+      <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="number">
+        {{ form.number.label }}
+      </label>
+    </div>
+    <div class="md:w-2/3">
+      {{ form.number(class_="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500", type="number") }}
+    </div>
+    {% for error in form.number.errors %}
+    <p class="text-red-500 text-xs italic">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="md:flex md:items-center mb-4">
+    <div class="md:w-1/3">
+      <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="specifier">
+        {{ form.specifier.label }}
+      </label>
+    </div>
+    <div class="md:w-2/3">
+      {{ form.specifier(class_="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500") }}
+    </div>
+    {% for error in form.specifier.errors %}
+    <p class="text-red-500 text-xs italic">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="md:flex md:items-center">
+    <div class="md:w-1/3"></div>
+    <div class="md:w-2/3">
+      <input
+        class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+        type="submit" value="{{ 'Update line' if line else 'Create line'}}" />
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask import abort
-from flask_login import current_user, login_required
+from flask_user import current_user, login_required
 from sqlalchemy.exc import IntegrityError
 
 from application import app, db

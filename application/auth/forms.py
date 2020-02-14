@@ -1,15 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField, validators
+from flask_user.forms import RegisterForm
 
 
-class LoginForm(FlaskForm):
-    username = StringField("Username")
-    password = PasswordField("Password")
-
-    class Meta:
-        csrf = False
-
-
-class RegistrationForm(LoginForm):
-    name = StringField("Name")
-    password_verification = PasswordField("Password again")
+class RegistrationForm(RegisterForm):
+    # Add a country field to the Register form
+    name = StringField("Name", validators=[validators.DataRequired()])

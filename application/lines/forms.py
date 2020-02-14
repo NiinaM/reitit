@@ -1,10 +1,18 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators
+from wtforms import IntegerField, StringField, validators
 
 
 class LineForm(FlaskForm):
-    name = StringField(
-        "Line name", [validators.DataRequired(), validators.Length(min=1)]
+    number = IntegerField(
+        "Line number",
+        [validators.DataRequired(), validators.NumberRange(min=1, max=999)],
+    )
+    specifier = StringField(
+        "Line specifier",
+        [
+            validators.Optional(),
+            validators.Regexp("^[A-Z]+", message="Only characters A-Z are allowed."),
+        ],
     )
 
     class Meta:
