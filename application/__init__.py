@@ -32,6 +32,9 @@ from application import views
 from application.lines import models
 from application.lines import views
 
+from application.routes import models
+from application.routes import views
+
 from application.auth import models
 from application.auth import forms
 from application.auth.models import User
@@ -48,7 +51,4 @@ class CustomUserManager(UserManager):
 user_manager = CustomUserManager(app, db, User)
 
 # initialize database
-try:
-    database.init_db(db, user_manager)
-except:
-    print("Error during database initialization")
+database.init_db(db, user_manager)

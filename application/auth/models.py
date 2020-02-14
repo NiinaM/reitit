@@ -16,9 +16,6 @@ class User(Base, UserMixin):
         "Line", secondary=models.favorites, lazy="subquery", backref="users",
     )
 
-    def has_role(self, role):
-        return role in self.roles
-
 
 class Role(db.Model):
     __tablename__ = "role"

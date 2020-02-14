@@ -17,11 +17,6 @@
         <li class="block mt-4 lg:inline-block lg:mt-0">
           <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('lines_list') }}">All lines</a>
         </li>
-        {% if current_user.is_authenticated and current_user.has_role('admin') %}
-        <li class="block mt-4 lg:inline-block lg:mt-0">
-          <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('lines_form') }}">Create new line</a>
-        </li>
-        {% endif %}
       </ul>
     </div>
     {% if current_user.is_authenticated %}
@@ -60,8 +55,11 @@
     if (removeButtonEl) {
       const lineId = removeButtonEl.dataset["lineid"];
       if (lineId) {
-        fetch(`/lines/${lineId}`, { method: "DELETE" })
-          .then(() => window.location.href = "/lines")
+        fetch(`/lines/${lineId}/`, { method: "DELETE" })
+          .then((response) => {
+            if (!response.ok) throw new Error(response.status);
+            window.location.href = "/lines"
+          })
           .catch((e) => {
             console.error(e);
             window.alert("Delete unsuccesful!")
@@ -77,7 +75,10 @@
       const lineId = favoriteButtonEl.dataset["lineid"];
       if (lineId) {
         fetch(`/favorites/${lineId}/`, { method: "POST" })
-          .then(() => window.location.reload())
+          .then((response) => {
+            if (!response.ok) throw new Error(response.status);
+            window.location.reload()
+          })
           .catch((e) => {
             console.error(e);
             window.alert("Adding to favorites unsuccesful!")
@@ -93,7 +94,10 @@
       const lineId = unfavoriteButtonEl.dataset["lineid"];
       if (lineId) {
         fetch(`/favorites/${lineId}/`, { method: "DELETE" })
-          .then(() => window.location.reload())
+          .then((response) => {
+            if (!response.ok) throw new Error(response.status);
+            window.location.reload()
+          })
           .catch((e) => {
             console.error(e);
             window.alert("Removing from favorites unsuccesful!")
