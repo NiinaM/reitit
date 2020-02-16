@@ -19,6 +19,6 @@ kertoo käyttötapauksen valmistumisesta.
 
 - [x] Käyttäjälle voidaan asettaa ylläpito-oikeudet.
 - [x] Ylläpitäjänä voin luoda ja poistaa linjan.
-- [ ] Ylläpitäjänä voin luoda ja poistaa reitin sekä liittää sen linjaan.
+- [x] Ylläpitäjänä voin luoda ja poistaa reitin sekä liittää sen linjaan.
 - [ ] Ylläpitäjänä voin luoda ja poistaa pysäkin.
 - [ ] Ylläpitäjänä voin liittää pysäkin reittiin.

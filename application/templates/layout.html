@@ -50,10 +50,10 @@
 </body>
 
 <script>
-  const removeButtonEl = document.getElementById("remove-line-button");
+  const removeLineButtonEl = document.getElementById("remove-line-button");
   const removeLine = () => {
-    if (removeButtonEl) {
-      const lineId = removeButtonEl.dataset["lineid"];
+    if (removeLineButtonEl) {
+      const lineId = removeLineButtonEl.dataset["lineid"];
       if (lineId) {
         fetch(`/lines/${lineId}/`, { method: "DELETE" })
           .then((response) => {
@@ -67,7 +67,7 @@
       }
     }
   }
-  if (removeButtonEl) removeButtonEl.addEventListener("click", removeLine);
+  if (removeLineButtonEl) removeLineButtonEl.addEventListener("click", removeLine);
 
   const favoriteButtonEl = document.getElementById("favorite-line-button");
   const favoriteLine = () => {
@@ -106,6 +106,26 @@
     }
   }
   if (unfavoriteButtonEl) unfavoriteButtonEl.addEventListener("click", unfavoriteLine);
+
+  const removeRouteButtonEl = document.getElementById("remove-route-button");
+  const removeRoute = () => {
+    if (removeRouteButtonEl) {
+      const routeId = removeRouteButtonEl.dataset["routeid"];
+      const lineId = removeRouteButtonEl.dataset["lineid"];
+      if (routeId) {
+        fetch(`/routes/${routeId}/`, { method: "DELETE" })
+          .then((response) => {
+            if (!response.ok) throw new Error(response.status);
+            window.location.href = `/lines/${lineId}/`
+          })
+          .catch((e) => {
+            console.error(e);
+            window.alert("Delete unsuccesful!")
+          })
+      }
+    }
+  }
+  if (removeRouteButtonEl) removeRouteButtonEl.addEventListener("click", removeRoute);
 </script>
 
 </html>

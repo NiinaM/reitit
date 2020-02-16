@@ -95,12 +95,17 @@ def lines_single_edit(line_id):
 @roles_required("admin")
 def lines_single_delete(line_id):
     found_line = Line.query.get(line_id)
+
+    if len(found_line.routes) > 0:
+        for route in found_line.routes:
+            db.session.delete(route)
+
     db.session.delete(found_line)
 
     try:
         db.session.commit()
         return "OK"
-    except IntegrityError as error:
+    except:
         db.session.rollback()
 
     abort(500)
