@@ -3,8 +3,9 @@ from flask_user import roles_required
 from sqlalchemy.exc import IntegrityError
 
 from application import app, db
-from application.routes.forms import RouteForm
+from application.routes.forms import AttachStopForm, RouteForm
 from application.routes.models import Route
+from application.stops.models import Stop
 
 
 @app.route("/routes/<route_id>", methods=["GET"])
@@ -114,5 +115,33 @@ def routes_single_edit(route_id):
         return render_template(
             "routes/form.html", form=form, route=found_route, line_id=line_id
         )
+
+    abort(500)
+
+
+@app.route("/routes/<route_id>/attach", methods=["GET"])
+@app.route("/routes/<route_id>/attach/", methods=["GET"])
+@roles_required("admin")
+def attach_stop_form(route_id):
+    found_route = Route.query.get(route_id)
+    form = AttachStopForm(request.form)
+    return render_template("routes/attach.html", form=form, route=found_route)
+
+
+@app.route("/routes/<route_id>/attach", methods=["POST"])
+@app.route("/routes/<route_id>/attach/", methods=["POST"])
+@roles_required("admin")
+def attach_stop(route_id):
+    form = AttachStopForm(request.form)
+    found_route = Route.query.get(route_id)
+    found_stop = Stop.query.get(form.stop.data)
+    found_route.stops.append(found_stop)
+
+    try:
+        db.session.commit()
+        return redirect(url_for("routes_single", route_id=route_id))
+    except:
+        db.session.rollback()
+        return render_template("routes/form.html", form=form, route=found_route)
 
     abort(500)

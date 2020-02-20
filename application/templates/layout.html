@@ -17,6 +17,9 @@
         <li class="block mt-4 lg:inline-block lg:mt-0">
           <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('lines_list') }}">All lines</a>
         </li>
+        <li class="block mt-4 lg:inline-block lg:mt-0">
+          <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('stops_list') }}">All stops</a>
+        </li>
       </ul>
     </div>
     {% if current_user.is_authenticated %}

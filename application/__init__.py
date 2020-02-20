@@ -32,8 +32,13 @@ from application import views
 from application.lines import models
 from application.lines import views
 
+from application.route_stop import models
+
 from application.routes import models
 from application.routes import views
+
+from application.stops import models
+from application.stops import views
 
 from application.auth import models
 from application.auth import forms

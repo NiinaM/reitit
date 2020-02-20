@@ -13,5 +13,25 @@
   </button>
   {% endif %}
 </div>
+<div class="mt-2">
+  <h3 class="text-xl">Stops</h3>
+  <table>
+    {% for stop in route.stops %}
+    <tr>
+      <td>
+        {{ stop.name }}
+      </td>
+    </tr>
+    {% endfor %}
+    {% if current_user.is_authenticated and current_user.has_roles('admin') %}<tr>
+      <td>
+        <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('attach_stop_form', route_id=route.id) }}">+
+          Attach
+          stop to route</a>
+      </td>
+    </tr>
+    {% endif %}
+  </table>
+</div>
 
 {% endblock %}
