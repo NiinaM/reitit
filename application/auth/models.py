@@ -7,8 +7,8 @@ from application.favorites import models
 class User(Base, UserMixin):
     __tablename__ = "user"
 
-    name = db.Column(db.String(144), nullable=False)
-    username = db.Column(db.String(144), nullable=False, unique=True)
+    name = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, server_default="")
     active = db.Column(db.Boolean(), nullable=False, server_default="1")
     roles = db.relationship("Role", secondary="user_role")
