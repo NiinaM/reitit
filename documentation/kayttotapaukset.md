@@ -20,5 +20,5 @@ kertoo käyttötapauksen valmistumisesta.
 - [x] Käyttäjälle voidaan asettaa ylläpito-oikeudet.
 - [x] Ylläpitäjänä voin luoda ja poistaa linjan.
 - [x] Ylläpitäjänä voin luoda ja poistaa reitin sekä liittää sen linjaan.
-- [ ] Ylläpitäjänä voin luoda ja poistaa pysäkin.
-- [ ] Ylläpitäjänä voin liittää pysäkin reittiin.
+- [x] Ylläpitäjänä voin luoda ja poistaa pysäkin.
+- [x] Ylläpitäjänä voin liittää pysäkin reittiin.
