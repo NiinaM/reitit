@@ -1,7 +1,7 @@
 from os import environ
 import secrets
 from flask import Flask
-from flask_user import UserManager
+
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
@@ -26,28 +26,25 @@ app.config["SECRET_KEY"] = secrets.token_urlsafe(32)
 db = SQLAlchemy(app)
 
 # application features and views
-from application import database
-from application import views
-
-from application.lines import models
-from application.lines import views
-
-from application.route_stop import models
-
-from application.routes import models
-from application.routes import views
-
 from application.stops import models
-from application.stops import views
-
+from application.lines import models
+from application.routes import models
+from application.favorites import models
 from application.auth import models
+
+from application import views
+from application.lines import views
+from application.stops import views
+from application.routes import views
+from application.favorites import views
+
 from application.auth import forms
 from application.auth.models import User
 
-from application.favorites import models
-from application.favorites import views
-
 # application login
+from flask_user import UserManager
+
+
 class CustomUserManager(UserManager):
     def customize(self, app):
         self.RegisterFormClass = forms.RegistrationForm
@@ -56,4 +53,6 @@ class CustomUserManager(UserManager):
 user_manager = CustomUserManager(app, db, User)
 
 # initialize database
+from application import database
+
 database.init_db(db, user_manager)

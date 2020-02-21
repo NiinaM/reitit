@@ -11,12 +11,7 @@ class RouteForm(FlaskForm):
 
 
 class AttachStopForm(FlaskForm):
-    stop_choices = Stop.query.order_by(Stop.name.asc()).all()
-    stop = SelectField(
-        "Stop",
-        choices=[(single_stop.id, single_stop.name) for single_stop in stop_choices],
-        validators=[validators.DataRequired()],
-    )
+    stop = SelectField("Stop", validators=[validators.DataRequired()],)
 
     class Meta:
         csrf = False

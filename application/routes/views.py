@@ -3,9 +3,9 @@ from flask_user import roles_required
 from sqlalchemy.exc import IntegrityError
 
 from application import app, db
-from application.routes.forms import AttachStopForm, RouteForm
-from application.routes.models import Route
 from application.stops.models import Stop
+from application.routes.models import Route
+from application.routes.forms import AttachStopForm, RouteForm
 
 
 @app.route("/routes/<route_id>", methods=["GET"])
@@ -125,6 +125,10 @@ def routes_single_edit(route_id):
 def attach_stop_form(route_id):
     found_route = Route.query.get(route_id)
     form = AttachStopForm(request.form)
+    form.stop.choices = [
+        (single_stop.id, single_stop.name)
+        for single_stop in Stop.query.order_by(Stop.name.asc()).all()
+    ]
     return render_template("routes/attach.html", form=form, route=found_route)
 
 
