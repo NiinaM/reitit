@@ -145,3 +145,21 @@ def attach_stop(route_id):
         return render_template("routes/form.html", form=form, route=found_route)
 
     abort(500)
+
+
+@app.route("/routes/<route_id>/attach/<stop_id>", methods=["DELETE"])
+@app.route("/routes/<route_id>/attach/<stop_id>/", methods=["DELETE"])
+@roles_required("admin")
+def detach_stop(route_id, stop_id):
+    found_route = Route.query.get(route_id)
+    found_stop = Stop.query.get(stop_id)
+    found_route.stops.remove(found_stop)
+
+    try:
+        db.session.commit()
+        return "OK"
+    except IntegrityError as error:
+        db.session.rollback()
+
+    abort(500)
+

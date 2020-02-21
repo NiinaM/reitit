@@ -15,23 +15,26 @@
 </div>
 <div class="mt-2">
   <h3 class="text-xl">Stops</h3>
-  <table>
-    {% for stop in route.stops %}
-    <tr>
-      <td>
-        {{ stop.name }}
-      </td>
-    </tr>
-    {% endfor %}
-    {% if current_user.is_authenticated and current_user.has_roles('admin') %}<tr>
-      <td>
-        <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('attach_stop_form', route_id=route.id) }}">+
-          Attach
-          stop to route</a>
-      </td>
-    </tr>
-    {% endif %}
+  <table class="table-fixed my-2">
+    <tbody>
+      {% for stop in route.stops %}
+      <tr>
+        <td class="border-b pr-4 py-2">
+          {{ stop.name }}
+        </td>
+        <td class="border-b px-1 py-1">
+          <button
+            class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded"
+            id="detach-stop-button" data-routeid="{{ route.id }}" data-stopid="{{ stop.id }}">x</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
+  {% if current_user.is_authenticated and current_user.has_roles('admin') %}
+  <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('attach_stop_form', route_id=route.id) }}">+
+    Attach stop to route</a>
+  {% endif %}
 </div>
 
 {% endblock %}

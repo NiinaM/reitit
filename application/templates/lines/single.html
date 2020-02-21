@@ -28,23 +28,20 @@
 </div>
 <div class="mt-2">
   <h3 class="text-xl">Routes</h3>
-  <table>
+  <table class="table-fixed my-2">
     {% for route in routes %}
     <tr>
-      <td>
+      <td class="border-b py-2">
         <a class="text-blue-500 hover:text-blue-800"
           href="{{ url_for('routes_single', route_id=route.id) }}">{{ route.name }}</a>
       </td>
     </tr>
     {% endfor %}
-    {% if current_user.is_authenticated and current_user.has_roles('admin') %}<tr>
-      <td>
-        <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('routes_form', line_id=line.id) }}">+ Create a new
-          route</a>
-      </td>
-    </tr>
-    {% endif %}
   </table>
+  {% if current_user.is_authenticated and current_user.has_roles('admin') %}
+  <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('routes_form', line_id=line.id) }}">+ Create a new
+    route</a>
+  {% endif %}
 </div>
 
 {% endblock %}

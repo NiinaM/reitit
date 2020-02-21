@@ -129,6 +129,26 @@
     }
   }
   if (removeRouteButtonEl) removeRouteButtonEl.addEventListener("click", removeRoute);
+
+  const detachStopButtonEl = document.getElementById("detach-stop-button");
+  const detachStop = () => {
+    if (detachStopButtonEl) {
+      const routeId = detachStopButtonEl.dataset["routeid"];
+      const stopId = detachStopButtonEl.dataset["stopid"];
+      if (stopId) {
+        fetch(`/routes/${routeId}/attach/${stopId}/`, { method: "DELETE" })
+          .then((response) => {
+            if (!response.ok) throw new Error(response.status);
+            window.location.reload()
+          })
+          .catch((e) => {
+            console.error(e);
+            window.alert("Detach unsuccesful!")
+          })
+      }
+    }
+  }
+  if (detachStopButtonEl) detachStopButtonEl.addEventListener("click", detachStop);
 </script>
 
 </html>

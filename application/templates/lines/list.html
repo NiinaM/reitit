@@ -1,20 +1,17 @@
 {% extends "layout.html" %} {% block body %}
 <h2 class="text-3xl">Lines</h2>
-<table>
+<table class="table-fixed my-2">
   {% for line in lines %}
   <tr>
-    <td>
+    <td class="border-b py-2">
       <a class="text-blue-500 hover:text-blue-800"
         href="{{ url_for('lines_single', line_id=line.id) }}">{{ line.get_name() }}</a>
     </td>
   </tr>
   {% endfor %}
-  {% if current_user.is_authenticated and current_user.has_roles('admin') %}<tr>
-    <td>
-      <a class="text-blue-500 hover:text-blue-800" href="{{ url_for('lines_form') }}">+ Create a new line</a>
-    </td>
-  </tr>
-  {% endif %}
 </table>
+{% if current_user.is_authenticated and current_user.has_roles('admin') %}
+<a class="text-blue-500 hover:text-blue-800" href="{{ url_for('lines_form') }}">+ Create a new line</a>
+{% endif %}
 
 {% endblock %}
