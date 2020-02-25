@@ -10,7 +10,7 @@
 <body>
   <nav class="flex items-center justify-between flex-wrap bg-blue-500 p-4">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
-      <h1 class="font-semibold text-2xl">Reitit</h1>
+      <h1 class="font-semibold text-2xl"><a href="{{ url_for('index') }}">Reitit</a></h1>
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <ul class="text-md lg:flex-grow">
@@ -19,6 +19,9 @@
         </li>
         <li class="block mt-4 lg:inline-block lg:mt-0">
           <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('stops_list') }}">All stops</a>
+        </li>
+        <li class="block mt-4 lg:inline-block lg:mt-0">
+          <a class="text-blue-100 hover:text-white mr-2" href="{{ url_for('favorites_list') }}">Favorites</a>
         </li>
       </ul>
     </div>

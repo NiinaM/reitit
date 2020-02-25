@@ -13,7 +13,7 @@ kertoo käyttötapauksen valmistumisesta.
 ## Rekisteröitynyt käyttäjä
 
 - [x] Rekisteröityneenä käyttäjänä voin lisätä linjan suosikkeihini.
-- [ ] Rekisteröityneenä käyttäjänä voin nähdä listan suosikeissa olevista linjoistani.
+- [x] Rekisteröityneenä käyttäjänä voin nähdä listan suosikeissa olevista linjoistani.
 
 ## Ylläpitäjä
 
